@@ -8,8 +8,6 @@ class PointController {
       .split(",")
       .map((item) => Number(item.trim()));
 
-    console.log(parsedItems);
-
     const points = await knex("points")
       .join("points_items", "points.id", "=", "points_items.point_id")
       .whereIn("points_items.item_id", parsedItems)
@@ -20,8 +18,8 @@ class PointController {
 
     const serializedPoints = points.map((point) => {
       return {
-        ...points,
-        image_url: `http://192.168.0.104:3333/uploads/${point.image}`,
+        ...point,
+        image_url: `http://192.168.0.107:3333/uploads/${point.image}`,
       };
     });
 
@@ -33,11 +31,9 @@ class PointController {
 
     const point = await knex("points").where("id", id).first();
 
-    console.log(point);
-
     const serializedPoint = {
       ...point,
-      image_url: `http://192.168.0.104:3333/uploads/${point.image}`,
+      image_url: `http://192.168.0.107:3333/uploads/${point.image}`,
     };
 
     const items = await knex("items")
